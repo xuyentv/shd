@@ -1,11 +1,11 @@
 import React from "react";
-import "./Header.css"
-export default function () {
- return (
+import "./Header.css";
+import SocialSubscrible from "../SocialSubscrible/SocialSubscrible";
+const Header = () => {
+  return (
     <header className="header">
       <a href="/" className="logo">
         <span className="logo-icon"></span>
-        Clarity
       </a>
       <nav className="nav">
         <a href="/">Home</a>
@@ -13,14 +13,9 @@ export default function () {
         <a href="/blogs">Blogs</a>
         <a href="/support">Support</a>
       </nav>
-      <div className="social-subscribe">
-        <div className="social-icons">
-          <a href="#"><i className="fab fa-facebook-f"></i></a>
-          <a href="#"><i className="fab fa-twitter"></i></a>
-          <a href="#"><i className="fab fa-linkedin-in"></i></a>
-        </div>
-        <a href="#" className="subscribe-btn">Subscribe</a>
-      </div>
+      <SocialSubscrible />
     </header>
   );
-}
+};
+
+export default Header;
