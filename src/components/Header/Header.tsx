@@ -1,4 +1,5 @@
-mport React from "react";0import "./Header.css"
+import React from "react";
+import "./Header.css"
 export default function () {
  return (
     <header className="header">
