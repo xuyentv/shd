@@ -1,0 +1,58 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #000;
+  text-decoration: none;
+}
+
+.nav {
+  display: flex;
+  gap: 24px;
+}
+
+.nav a {
+  text-decoration: none;
+  color: #4a5568;
+  font-weight: 500;
+  transition: color 0.2s ease-in-out;
+}
+
+.nav a:hover {
+  color: #000;
+}
+
+.social-subscribe {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.social-icons a {
+  color: #4a5568;
+  font-size: 18px;
+  margin-left: 10px;
+  transition: color 0.2s ease-in-out;
+}
+
+.social-icons a:hover {
+  color: #000;
+}
+
+.subscribe-btn {
+  background-color: #1a202c;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 600;
+}
