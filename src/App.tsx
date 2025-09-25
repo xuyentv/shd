@@ -12,6 +12,7 @@ function App() {
                 <MainSection/>
                 <SubMainSection/>
                 <MainContent/>
+
             </div>
         </div>
     );
