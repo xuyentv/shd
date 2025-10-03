@@ -4,6 +4,7 @@
   align-items: center;
   padding: 20px 0;
   border-bottom: 1px solid #e2e8f0;
+  background: #ffffff;
 }
 
 .logo {
@@ -11,42 +12,107 @@
   align-items: center;
   font-size: 24px;
   font-weight: bold;
-  color: #000;
+  color: #0077ff; /* xanh affiliate */
   text-decoration: none;
 }
 .logo-icon {
-    /* Đảm bảo thẻ <span> có kích thước cụ thể */
-    display: inline-block; 
-    width: 40px; 
-    height: 40px; 
-    
-    /* Đặt logo làm ảnh nền */
-    background-image: url('/images/logo.png');
-    background-size: contain; /* Điều chỉnh kích thước ảnh để vừa với khung */
-    background-repeat: no-repeat; /* Ngăn ảnh lặp lại */
-    background-position: center; /* Căn giữa ảnh trong khung */
-    
-    /* Khoảng cách giữa logo và chữ "SHD" */
-    margin-right: 5px; 
-    vertical-align: middle; /* Căn chỉnh với văn bản */
+  display: inline-block; 
+  width: 40px; 
+  height: 40px; 
+  background-image: url('/images/logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-right: 5px; 
+  vertical-align: middle; 
 }
 
 .nav {
   display: flex;
   gap: 24px;
+  align-items: center;
 }
 
-.nav a {
+/* Link chính */
+.nav a, 
+.dropbtn {
   text-decoration: none;
-  color: #4a5568;
+  color: #374151; /* xám đậm */
   font-weight: 500;
-  transition: color 0.2s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  padding: 6px 0;
+  position: relative;
 }
 
-.nav a:hover {
-  color: #000;
+.nav a:hover, 
+.dropbtn:hover {
+  color: #0077ff; /* xanh khi hover */
 }
 
+/* Hiệu ứng gạch chân khi hover */
+.nav a::after, 
+.dropbtn::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 2px;
+  background: #0077ff;
+  transition: width 0.3s;
+  margin-top: 4px;
+}
+.nav a:hover::after, 
+.dropbtn:hover::after {
+  width: 100%;
+}
+
+/* Dropdown */
+.dropdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Sub menu */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%; 
+  left: 0;
+  background-color: #fff;
+  min-width: 220px;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  z-index: 999;
+  flex-direction: column;
+  overflow: hidden;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.dropdown-content a {
+  padding: 12px 16px;
+  display: block;
+  color: #374151;
+  text-decoration: none;
+  font-weight: 400;
+  transition: all 0.2s ease-in-out;
+}
+
+.dropdown-content a:hover {
+  background-color: #0077ff;
+  color: #fff;
+}
+
+.dropdown:hover .dropdown-content {
+  display: flex;
+}
+
+/* Animation nhẹ khi hiện menu */
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(-10px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+
+/* Social */
 .social-subscribe {
   display: flex;
   align-items: center;
@@ -57,18 +123,26 @@
   color: #4a5568;
   font-size: 18px;
   margin-left: 10px;
-  transition: color 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
 
 .social-icons a:hover {
-  color: #000;
+  color: #0077ff;
+  transform: scale(1.2);
 }
 
 .subscribe-btn {
-  background-color: #1a202c;
+  background-color: #0077ff;
   color: #fff;
   padding: 8px 16px;
-  border-radius: 4px;
+  border-radius: 20px;
   text-decoration: none;
   font-weight: 600;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 10px rgba(0,119,255,0.3);
+}
+
+.subscribe-btn:hover {
+  background-color: #005fcc;
+  box-shadow: 0 6px 16px rgba(0,119,255,0.4);
 }

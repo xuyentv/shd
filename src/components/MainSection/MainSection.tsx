@@ -4,7 +4,7 @@ const MainSection = () => {
     return (
         <section className="main-hero-section">
             <div className="hero-image">
-                <img src={"images/logo.png"} alt="Modern buildings"/>
+                <img src={"https://images.pexels.com/photos/33149830/pexels-photo-33149830.jpeg"} alt="Modern buildings"/>
             </div>
             <div className="hero-content">
                 <span className="category-tag">Lifestyle</span>
