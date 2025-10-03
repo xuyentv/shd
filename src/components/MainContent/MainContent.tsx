@@ -37,9 +37,46 @@ class Record implements IRecord {
   }
 }
 
+interface ICategory {
+  no: string;
+  code: string;
+  name: string;
+  status: string;
+  position: string;
+  description: string;
+}
+
+// Class Record
+class Category implements ICategory {
+  no: string;
+  code: string;
+  name: string;
+  status: string;
+  position: string;
+  description: string;
+
+  constructor(
+    no: string = "",
+    code: string = "",
+    name: string = "",
+    status: string = "",
+    position: string = "",
+    description: string = ""
+  ) {
+    this.no = no;
+    this.code = code;
+    this.name = name;
+    this.status = status;
+    this.position = position;
+
+    this.description = description;
+  }
+}
+
 const Maincontent: React.FC = () => {
   // <-- fix type cho state
   const [records, setRecords] = useState<Record[]>([]);
+  const [category, setCategory] = useState<Category[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,14 +90,16 @@ const Maincontent: React.FC = () => {
 
         // Đọc Excel
         const workbook = XLSX.read(data, { type: "array" });
-        const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+        const worksheetPrograms = workbook.Sheets[workbook.SheetNames[0]];
+        const worksheetCategories = workbook.Sheets[workbook.SheetNames[1]];
 
         // Convert sang JSON
-        const jsonData: any[] = XLSX.utils.sheet_to_json(worksheet, {
+        const jsonDataPrograms: any[] = XLSX.utils.sheet_to_json(worksheetPrograms, {
           defval: "",
         });
+       
         // Map sang class Record (chú ý tên header trong sheet phải đúng)
-        const mappedData: Record[] = jsonData.map(
+        const mappedDataPrograms: Record[] = jsonDataPrograms.map(
           (row) =>
             new Record(
               row.no, // cột "No"
@@ -71,7 +110,24 @@ const Maincontent: React.FC = () => {
               row.commision // cột "Commision"
             )
         );
-        setRecords(mappedData);
+        setRecords(mappedDataPrograms);
+
+         const jsonDataCategories: any[] = XLSX.utils.sheet_to_json(worksheetCategories, {
+          defval: "",
+        });
+
+        const mappedDataCategories: Category[] = jsonDataCategories.map(
+          (row) =>
+            new Category(
+              row.no, // cột "No"
+              row.code, // cột "Code"
+              row.name, // cột "Title"
+              row.status, // cột "Content"
+              row.position, // cột "Status"
+              row.description // cột "Commision"
+            )
+        );
+        setCategory(mappedDataCategories);
       } catch (err) {
         console.error("Lỗi khi tải dữ liệu:", err);
       }
@@ -82,7 +138,8 @@ const Maincontent: React.FC = () => {
   // Theo dõi records khi update
   useEffect(() => {
     console.log("records state:", records);
-  }, [records]);
+    console.log("categories state:", category);
+  }, [records, category]);
   return (
     <>
       <div className="container py-5">
