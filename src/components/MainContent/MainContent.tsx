@@ -57,7 +57,6 @@ const Maincontent: React.FC = () => {
 
         // Convert sang JSON
         const jsonData: any[] = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
-
         // Map sang class Record (chú ý tên header trong sheet phải đúng)
         const mappedData: Record[] = jsonData.map(
           (row) =>
@@ -70,9 +69,8 @@ const Maincontent: React.FC = () => {
               row.commision  // cột "Commision"
             )
         );
-
-        console.log("Dữ liệu sau khi map:", mappedData);
         setRecords(mappedData);
+        console.log('records:', records)
       } catch (err) {
         console.error("Lỗi khi tải dữ liệu:", err);
       }
