@@ -56,21 +56,22 @@ const Maincontent: React.FC = () => {
         const worksheet = workbook.Sheets[workbook.SheetNames[0]];
 
         // Convert sang JSON
-        const jsonData: any[] = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
+        const jsonData: any[] = XLSX.utils.sheet_to_json(worksheet, {
+          defval: "",
+        });
         // Map sang class Record (chú ý tên header trong sheet phải đúng)
         const mappedData: Record[] = jsonData.map(
           (row) =>
             new Record(
-              row.no,        // cột "No"
-              row.code,      // cột "Code"
-              row.title,     // cột "Title"
-              row.content,   // cột "Content"
-              row.status,    // cột "Status"
-              row.commision  // cột "Commision"
+              row.no, // cột "No"
+              row.code, // cột "Code"
+              row.title, // cột "Title"
+              row.content, // cột "Content"
+              row.status, // cột "Status"
+              row.commision // cột "Commision"
             )
         );
         setRecords(mappedData);
-        console.log('records:', records)
       } catch (err) {
         console.error("Lỗi khi tải dữ liệu:", err);
       }
@@ -78,6 +79,10 @@ const Maincontent: React.FC = () => {
 
     fetchData();
   }, []);
+  // Theo dõi records khi update
+  useEffect(() => {
+    console.log("records state:", records);
+  }, [records]);
   return (
     <>
       <div className="container py-5">
