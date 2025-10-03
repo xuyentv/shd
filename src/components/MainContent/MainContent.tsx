@@ -1,17 +1,45 @@
 import React, { useEffect, useState } from "react";
 import * as XLSX from "xlsx";
-class Record {
-  constructor(no, title, code, content, status, commision) {
-    this.no = no || "";
-    this.code = code || "";
-    this.title = title || "";
-    this.content = content || "";
-    this.status = status || "";
-    this.commision = commision || "";
+
+// Interface
+interface IRecord {
+  no: string;
+  code: string;
+  title: string;
+  content: string;
+  status: string;
+  commision: string;
+}
+
+// Class Record
+class Record implements IRecord {
+  no: string;
+  code: string;
+  title: string;
+  content: string;
+  status: string;
+  commision: string;
+
+  constructor(
+    no: string = "",
+    code: string = "",
+    title: string = "",
+    content: string = "",
+    status: string = "",
+    commision: string = ""
+  ) {
+    this.no = no;
+    this.code = code;
+    this.title = title;
+    this.content = content;
+    this.status = status;
+    this.commision = commision;
   }
 }
-const Maincontent = () => {
-  const [records, setRecords] = useState([]);
+
+const Maincontent: React.FC = () => {
+  // <-- fix type cho state
+  const [records, setRecords] = useState<Record[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,20 +51,27 @@ const Maincontent = () => {
         const arrayBuffer = await response.arrayBuffer();
         const data = new Uint8Array(arrayBuffer);
 
-        // Đọc file Excel
+        // Đọc Excel
         const workbook = XLSX.read(data, { type: "array" });
         const worksheet = workbook.Sheets[workbook.SheetNames[0]];
 
-        // JSON từ sheet
-        const jsonData = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
+        // Convert sang JSON
+        const jsonData: any[] = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
 
-        // Map sang class Record
-        const mappedData = jsonData.map(
+        // Map sang class Record (chú ý tên header trong sheet phải đúng)
+        const mappedData: Record[] = jsonData.map(
           (row) =>
-            new Record(row.no, row.code, row.title, row.content, row.status, row.commision)
+            new Record(
+              row.no,        // cột "No"
+              row.code,      // cột "Code"
+              row.title,     // cột "Title"
+              row.content,   // cột "Content"
+              row.status,    // cột "Status"
+              row.commision  // cột "Commision"
+            )
         );
 
-        console.log("Dữ liệu:", mappedData);
+        console.log("Dữ liệu sau khi map:", mappedData);
         setRecords(mappedData);
       } catch (err) {
         console.error("Lỗi khi tải dữ liệu:", err);
