@@ -16,22 +16,20 @@
   z-index: 1000;
 }
 
-/* Logo trái */
 .logo {
   text-decoration: none;
   color: #fff;
   font-size: 22px;
   font-weight: bold;
-  flex-shrink: 0; /* không co lại */
+  flex-shrink: 0;
 }
 
-/* Nav giữa */
 .nav {
   display: flex;
   gap: 20px;
   align-items: center;
   justify-content: center;
-  flex: 1; /* nav chiếm không gian giữa */
+  flex: 1;
 }
 
 .nav a {
@@ -47,66 +45,13 @@
   border-radius: 6px;
 }
 
-/* Dropdown */
-.dropdown {
-  position: relative;
-}
-.dropbtn { cursor: pointer; }
-
-/* Menu cấp 1 */
-.dropdown-content {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background: #161b22;
-  min-width: 220px;
-  border-radius: 6px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-  flex-direction: column;
-}
-.dropdown-content a {
-  display: block;
-  padding: 10px 16px;
-  color: #fff;
-  transition: background 0.3s;
-}
-.dropdown-content a:hover { background: #30363d; }
-.dropdown:hover .dropdown-content { display: flex; }
-
-/* Sub dropdown (cấp 2) */
-.sub-dropdown { position: relative; }
-.sub-dropdown > a::after {
-  content: "▶";
-  float: right;
-  font-size: 12px;
-  margin-left: 8px;
-}
-.sub-dropdown-content {
-  display: none;
-  position: absolute;
-  top: 0;
-  left: 100%;
-  background: #1e2329;
-  min-width: 200px;
-  border-radius: 6px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-  flex-direction: column;
-}
-.sub-dropdown-content a {
-  padding: 10px 16px;
-  display: block;
-  color: #fff;
-}
-.sub-dropdown:hover .sub-dropdown-content { display: flex; }
-
-/* Social/Subscribe phải */
+/* Social/Subscribe */
 .social-subscribe {
   display: flex;
   gap: 12px;
   align-items: center;
   justify-content: flex-end;
-  flex-shrink: 0; /* không co lại */
+  flex-shrink: 0;
 }
 .social-icons {
   display: flex;
@@ -117,7 +62,9 @@
   font-size: 16px;
   transition: transform 0.2s;
 }
-.social-icons a:hover { transform: scale(1.2); }
+.social-icons a:hover {
+  transform: scale(1.2);
+}
 
 .subscribe-btn {
   background: linear-gradient(90deg, #00aeef, #0077ff);
@@ -136,7 +83,10 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-  .header { flex-wrap: wrap; padding: 12px 20px; }
+  .header {
+    flex-wrap: wrap;
+    padding: 12px 20px;
+  }
   .nav {
     flex-direction: column;
     flex: 1 0 100%;
@@ -144,8 +94,50 @@
     padding: 20px 0;
     background: #0d1117;
   }
-  .nav.active { display: flex; }
-  .social-subscribe { margin-left: auto; }
+  .nav.active {
+    display: flex;
+  }
+  .social-subscribe {
+    margin-left: auto;
+  }
 }
 
 
+/* Tùy chỉnh menu dropdown để khớp với header tối */
+.ant-dropdown-menu {
+  background-color: #161b22 !important;
+  border: 1px solid #30363d !important;
+  border-radius: 8px !important;
+  padding: 6px 0 !important;
+}
+
+.ant-dropdown-menu-item,
+.ant-dropdown-menu-submenu-title {
+  color: #f0f6fc !important;
+  transition: background 0.2s ease;
+}
+
+.ant-dropdown-menu-item:hover,
+.ant-dropdown-menu-submenu-title:hover {
+  background-color: #21262d !important;
+  color: #58a6ff !important;
+}
+
+/* Mũi tên submenu */
+.ant-dropdown-menu-submenu-arrow {
+  color: #8b949e !important;
+}
+
+/* Giới hạn chiều rộng submenu khi có text dài */
+.ant-dropdown-menu {
+  min-width: 180px !important;
+}
+
+
+/* .ant-dropdown {
+  animation: fadeIn 0.2s ease-in-out;
+} */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+} 

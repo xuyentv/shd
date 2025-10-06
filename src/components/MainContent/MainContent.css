@@ -1,0 +1,71 @@
+.main-container {
+  padding: 40px 20px;
+  background-color: #f8fafc;
+}
+
+.main-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.main-header h2 {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.main-header p {
+  color: #64748b;
+  margin-top: 8px;
+}
+
+.filter-buttons {
+  display: flex;
+  flex-wrap: wrap; /* ✅ Cho phép xuống dòng */
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+  /* overflow: visible; */
+  width: 100%;
+   overflow: visible !important;
+  height: auto !important;
+  max-height: none !important;
+}
+
+.filter-buttons .ant-space {
+  flex-wrap: wrap !important; /* ép Space xuống dòng */
+  justify-content: center;
+  width: 100%;
+}
+
+.filter-buttons .ant-btn {
+  margin: 5px;
+}
+/* --- CARD --- */
+.card-image {
+  width: 100%;
+  height: 200px; /* cố định chiều cao */
+  object-fit: cover; /* không méo ảnh */
+  border-radius: 8px 8px 0 0;
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+.author {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.author-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+}

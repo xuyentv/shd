@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { Row, Col, Card, Tag, Button, Space } from "antd";
 import * as XLSX from "xlsx";
+import "./Maincontent.css";
+
+const { Meta } = Card;
 
 // Interface
 interface IRecord {
@@ -11,7 +15,6 @@ interface IRecord {
   commision: string;
 }
 
-// Class Record
 class Record implements IRecord {
   no: string;
   code: string;
@@ -46,7 +49,6 @@ interface ICategory {
   description: string;
 }
 
-// Class Record
 class Category implements ICategory {
   no: string;
   code: string;
@@ -68,16 +70,14 @@ class Category implements ICategory {
     this.name = name;
     this.status = status;
     this.position = position;
-
     this.description = description;
   }
 }
 
 const Maincontent: React.FC = () => {
-  // <-- fix type cho state
   const [records, setRecords] = useState<Record[]>([]);
   const [category, setCategory] = useState<Category[]>([]);
-
+ const [activeCategory, setActiveCategory] = useState("all");
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -88,43 +88,34 @@ const Maincontent: React.FC = () => {
         const arrayBuffer = await response.arrayBuffer();
         const data = new Uint8Array(arrayBuffer);
 
-        // Đọc Excel
         const workbook = XLSX.read(data, { type: "array" });
         const worksheetPrograms = workbook.Sheets[workbook.SheetNames[0]];
         const worksheetCategories = workbook.Sheets[workbook.SheetNames[1]];
 
-        // Convert sang JSON
-        const jsonDataPrograms: any[] = XLSX.utils.sheet_to_json(worksheetPrograms, {
-          defval: "",
-        });
-       
-        // Map sang class Record (chú ý tên header trong sheet phải đúng)
+        const jsonDataPrograms: any[] = XLSX.utils.sheet_to_json(worksheetPrograms, { defval: "" });
         const mappedDataPrograms: Record[] = jsonDataPrograms.map(
           (row) =>
             new Record(
-              row.no, // cột "No"
-              row.code, // cột "Code"
-              row.title, // cột "Title"
-              row.content, // cột "Content"
-              row.status, // cột "Status"
-              row.commision // cột "Commision"
+              row.no,
+              row.code,
+              row.title,
+              row.content,
+              row.status,
+              row.commision
             )
         );
         setRecords(mappedDataPrograms);
 
-         const jsonDataCategories: any[] = XLSX.utils.sheet_to_json(worksheetCategories, {
-          defval: "",
-        });
-
+        const jsonDataCategories: any[] = XLSX.utils.sheet_to_json(worksheetCategories, { defval: "" });
         const mappedDataCategories: Category[] = jsonDataCategories.map(
           (row) =>
             new Category(
-              row.no, // cột "No"
-              row.code, // cột "Code"
-              row.name, // cột "Title"
-              row.status, // cột "Content"
-              row.position, // cột "Status"
-              row.description // cột "Commision"
+              row.no,
+              row.code,
+              row.name,
+              row.status,
+              row.position,
+              row.description
             )
         );
         setCategory(mappedDataCategories);
@@ -135,137 +126,62 @@ const Maincontent: React.FC = () => {
 
     fetchData();
   }, []);
-  // Theo dõi records khi update
-  useEffect(() => {
-    console.log("records state:", records);
-    console.log("categories state:", category);
-  }, [records, category]);
+
   return (
-    <>
-      <div className="container py-5">
-        <div className="text-center mb-4">
-          <h2 className="fw-bold fs-2">Browse by Category</h2>
-          <p className="text-muted mt-2">
-            Select a category to see more related content
-          </p>
-        </div>
-
-        {/* Nút category */}
-        <div className="d-flex flex-wrap justify-content-center gap-2 mb-5">
-          <button className="btn btn-dark rounded-pill px-4 py-2">
-            All (20)
-          </button>
-          <button className="btn btn-outline-secondary rounded-pill px-4 py-2">
-            Technology (03)
-          </button>
-          <button className="btn btn-outline-secondary rounded-pill px-4 py-2">
-            Lifestyle (02)
-          </button>
-          <button className="btn btn-outline-secondary rounded-pill px-4 py-2">
-            Travel (05)
-          </button>
-          <button className="btn btn-outline-secondary rounded-pill px-4 py-2">
-            Health (09)
-          </button>
-          <button className="btn btn-outline-secondary rounded-pill px-4 py-2">
-            Culture (01)
-          </button>
-        </div>
-
-        {/* Grid bài viết */}
-        <div className="row g-4">
-          <div className="col-12 col-md-6 col-lg-4">
-            <img
-              className="img-fluid rounded mb-3"
-              src="https://picsum.photos/600/400?1"
-              alt=""
-            />
-            <h3 className="fs-5 fw-semibold mb-2">
-              Stylish Kitchen And Dining Room With Functional Ideas
-            </h3>
-            <p className="text-muted small mb-3">
-              Lorem Ipsum is simply dummy text of the print and typesetting
-              industry...
-            </p>
-            <div className="d-flex justify-content-between align-items-center">
-              <div className="d-flex align-items-center gap-2 text-muted small">
-                <img
-                  className="rounded-circle"
-                  width="24"
-                  height="24"
-                  src="https://i.pravatar.cc/30"
-                  alt="author"
-                />
-                <span>Adrio Devid · Sep 10, 2025</span>
-              </div>
-              <span className="badge bg-primary-subtle text-primary">
-                Technology
-              </span>
-            </div>
-          </div>
-
-          <div className="col-12 col-md-6 col-lg-4">
-            <img
-              className="img-fluid rounded mb-3"
-              src="https://picsum.photos/600/400?2"
-              alt=""
-            />
-            <h3 className="fs-5 fw-semibold mb-2">
-              Stylish Kitchen And Dining Room With Functional Ideas
-            </h3>
-            <p className="text-muted small mb-3">
-              Lorem Ipsum is simply dummy text of the print and typesetting
-              industry...
-            </p>
-            <div className="d-flex justify-content-between align-items-center">
-              <div className="d-flex align-items-center gap-2 text-muted small">
-                <img
-                  className="rounded-circle"
-                  width="24"
-                  height="24"
-                  src="https://i.pravatar.cc/31"
-                  alt="author"
-                />
-                <span>Adrio Devid · Sep 10, 2025</span>
-              </div>
-              <span className="badge bg-primary-subtle text-primary">
-                Technology
-              </span>
-            </div>
-          </div>
-
-          <div className="col-12 col-md-6 col-lg-4">
-            <img
-              className="img-fluid rounded mb-3"
-              src="https://picsum.photos/600/400?3"
-              alt=""
-            />
-            <h3 className="fs-5 fw-semibold mb-2">
-              Stylish Kitchen And Dining Room With Functional Ideas
-            </h3>
-            <p className="text-muted small mb-3">
-              Lorem Ipsum is simply dummy text of the print and typesetting
-              industry...
-            </p>
-            <div className="d-flex justify-content-between align-items-center">
-              <div className="d-flex align-items-center gap-2 text-muted small">
-                <img
-                  className="rounded-circle"
-                  width="24"
-                  height="24"
-                  src="https://i.pravatar.cc/32"
-                  alt="author"
-                />
-                <span>Adrio Devid · Sep 10, 2025</span>
-              </div>
-              <span className="badge bg-primary-subtle text-primary">
-                Technology
-              </span>
-            </div>
-          </div>
-        </div>
+    <div className="main-container">
+      <div className="main-header">
+        <h2>Affiliate Programs 2025</h2>
+        <p>Select a program to explore details and start earning commissions</p>
       </div>
-    </>
+
+      <div className="filter-buttons">
+        <Space wrap>
+          {category.map((cat) => (
+          <Button
+            key={cat.code}
+            type={activeCategory === cat.code ? "primary" : "default"}
+            shape="round"
+            onClick={() => setActiveCategory(cat.code)}
+          >
+            {cat.name} ({String(cat.name).padStart(2, "0")})
+          </Button>
+        ))}
+        </Space>
+      </div>
+
+      <Row gutter={[24, 24]}>
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => (
+          <Col key={i} xs={24} sm={12} lg={8}>
+            <Card
+              hoverable
+              cover={
+                <img
+                  alt="program"
+                  src={`https://picsum.photos/600/400?random=${i}`}
+                  className="card-image"
+                />
+              }
+            >
+              <Meta
+                title="Stylish Kitchen And Dining Room With Functional Ideas"
+                description="Lorem Ipsum is simply dummy text of the print and typesetting industry..."
+              />
+              <div className="card-footer">
+                <div className="author">
+                  <img
+                    src={`https://i.pravatar.cc/30?img=${i}`}
+                    alt="author"
+                    className="author-avatar"
+                  />
+                  <span>Adrio David · Sep 10, 2025</span>
+                </div>
+                <Tag color="blue">Technology</Tag>
+              </div>
+            </Card>
+          </Col>
+        ))}
+      </Row>
+    </div>
   );
 };
 

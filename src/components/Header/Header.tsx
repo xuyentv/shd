@@ -1,7 +1,35 @@
-import "./Header.css";
+import { Menu, Dropdown, Space } from "antd";
+import { DownOutlined, RightOutlined } from "@ant-design/icons";
 import SocialSubscrible from "../SocialSubscrible/SocialSubscrible";
+import "./Header.css";
 
 const Header = () => {
+  // Định nghĩa menu hosting có cấp con
+  const hostingMenuItems = [
+    {
+      key: "shared",
+      label: <a href="/pages/shared-hosting">Shared Hosting</a>,
+    },
+    {
+      key: "vps",
+      label: <a href="/pages/vps">VPS</a>,
+    },
+    {
+      key: "dedicated",
+      label: "Dedicated Server",
+      children: [
+        {
+          key: "windows",
+          label: <a href="/pages/dedicated/windows">Windows Server</a>,
+        },
+        {
+          key: "linux",
+          label: <a href="/pages/dedicated/linux">Linux Server</a>,
+        },
+      ],
+    },
+  ];
+
   return (
     <header className="header">
       <a href="/" className="logo">
@@ -9,28 +37,25 @@ const Header = () => {
       </a>
 
       <nav className="nav">
-        <a href="/">Home</a>
+        <Space size="large">
+          <a href="/">Home</a>
 
-        <div className="dropdown">
-          <a href="/pages" className="dropbtn">Web Hosting ▾</a>
-          <div className="dropdown-content">
-            <a href="/pages/shared-hosting">Shared Hosting</a>
-            <a href="/pages/vps">VPS</a>
+          {/* Dropdown Web Hosting */}
+          <Dropdown
+            menu={{ items: hostingMenuItems }}
+            placement="bottom"
+            trigger={["hover"]}
+          >
+            <a onClick={(e) => e.preventDefault()}>
+              Web Hosting <DownOutlined />
+            </a>
+          </Dropdown>
 
-            <div className="sub-dropdown">
-              <a href="/pages/dedicated">Dedicated Server ▸</a>
-              <div className="sub-dropdown-content">
-                <a href="/pages/dedicated/windows">Windows Server</a>
-                <a href="/pages/dedicated/linux">Linux Server</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <a href="/blogs">Review</a>
-        <a href="/blog">Blog</a>
-        <a href="/about">About</a>
-        <a href="/contact">Contact</a>
+          <a href="/blogs">Review</a>
+          <a href="/blog">Blog</a>
+          <a href="/about">About</a>
+          <a href="/contact">Contact</a>
+        </Space>
       </nav>
 
       <SocialSubscrible />

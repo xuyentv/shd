@@ -1,39 +1,54 @@
 import "./SubMainSection.css";
 
 const SubMainSection = () => {
-    return (
-        <>
-            <div className="row g-4 mt-4">
-                {/* Card 1 */}
-                <div className="col-12 col-md-6">
-                    <div className="d-flex bg-white rounded-3 shadow overflow-hidden">
-                        <img className="flex-shrink-0" src="images/banner.png" alt="img" width="160" height="160" style={{objectFit: "cover"}} />
-                        <div className="p-3">
-                            <span className="badge bg-primary-subtle text-primary mb-2">Technology</span>
-                            <h2 className="fs-6 fw-semibold">
-                                14 Innovative Architectural Designs to Create a Vast Interior Space
-                            </h2>
-                            <p className="small text-muted mt-2">By Adrio Devid · Sep 10, 2025</p>
-                        </div>
-                    </div>
-                </div>
+  const posts = [
+    {
+      id: 1,
+      image: "https://picsum.photos/600/400?random=5",
+      category: "Technology",
+      categoryColor: "primary",
+      title: "14 Innovative Architectural Designs to Create a Vast Interior Space",
+      author: "Adrio Devid",
+      date: "Sep 10, 2025",
+    },
+    {
+      id: 2,
+      image: "https://picsum.photos/600/400?random=6",
+      category: "Travel",
+      categoryColor: "success",
+      title: "Traveller Visiting Ice Cave With Amazing Eye-catching View with Nature",
+      author: "Adrio Devid",
+      date: "Sep 10, 2025",
+    },
+  ];
 
-                {/* Card 2 */}
-                <div className="col-12 col-md-6">
-                    <div className="d-flex bg-white rounded-3 shadow overflow-hidden">
-                        <img className="flex-shrink-0" src="images/banner02.png" alt="img" width="160" height="160" style={{objectFit: "cover"}} />
-                        <div className="p-3">
-                            <span className="badge bg-success-subtle text-success mb-2">Travel</span>
-                            <h2 className="fs-6 fw-semibold">
-                                Traveller Visiting Ice Cave With Amazing Eye-catching view with nature
-                            </h2>
-                            <p className="small text-muted mt-2">By Adrio Devid · Sep 10, 2025</p>
-                        </div>
-                    </div>
-                </div>
+  return (
+    <div className="row g-4 mt-4">
+      {posts.map((post) => (
+        <div className="col-12 col-md-6" key={post.id}>
+          <div className="d-flex bg-white rounded-3 shadow overflow-hidden">
+            <img
+              className="flex-shrink-0"
+              src={post.image}
+              alt="img"
+              width="160"
+              height="160"
+              style={{ objectFit: "cover" }}
+            />
+            <div className="p-3">
+              <span className={`badge bg-${post.categoryColor}-subtle text-${post.categoryColor} mb-2`}>
+                {post.category}
+              </span>
+              <h2 className="fs-6 fw-semibold">{post.title}</h2>
+              <p className="small text-muted mt-2">
+                By {post.author} · {post.date}
+              </p>
             </div>
-        </>
-    );
+          </div>
+        </div>
+      ))}
+    </div>
+  );
 };
 
 export default SubMainSection;
