@@ -25,6 +25,7 @@ interface IRecord {
   status: string;
   commision: string;
   image: string;
+  url: string;
 }
 
 interface ICategory {
@@ -38,12 +39,12 @@ interface ICategory {
   color: string;
 }
 
-const Maincontent: React.FC = () => {
+const MainContent: React.FC = () => {
   const [records, setRecords] = useState<IRecord[]>([]);
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [activeCategory, setActiveCategory] = useState<string>("all");
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [pageSize] = useState<number>(6);
+  const [pageSize] = useState<number>(8);
   const [loading, setLoading] = useState<boolean>(true);
 
   const listRef = useRef<HTMLDivElement>(null);
@@ -81,6 +82,7 @@ const Maincontent: React.FC = () => {
           status: String(row.status ?? ""),
           commision: String(row.commision ?? ""),
           image: String(row.image ?? ""),
+          url: String(row.url ?? ""),
         }));
 
         const mappedCategories: ICategory[] = jsonCategories.map((row, idx) => ({
@@ -185,51 +187,63 @@ const Maincontent: React.FC = () => {
       <Row gutter={[24, 24]} ref={listRef}>
         {paginatedData.length > 0 ? (
           paginatedData.map((item) => (
-            <Col key={item.id} id={item.id} xs={24} sm={12} lg={8}>
-              <Card
-                hoverable
-                className="program-card"
-                cover={<img alt={item.title} src={item.image} className="card-image" />}
-              >
-                <Meta title={item.title} description={item.content} />
-                <div className="card-footer">
-                  <div className="author">
-                    <img
-                      src={`https://i.pravatar.cc/30?img=${item.no}`}
-                      alt="author"
-                      className="author-avatar"
-                    />
-                    <span>Adrio David · Sep 10, 2025</span>
-                  </div>
-                  <Tag color={getCategoryColor(item.code)}>
+            <Col key={item.id} id={item.id} xs={24} sm={12} lg={6}>
+              <Card hoverable className="program-card" bodyStyle={{ padding: 16 }}>
+                <div className="card-image-wrapper">
+                  <img alt={item.title} src={item.image} className="card-image" />
+                  <Tag
+                    className="card-tag"
+                    style={{
+                      backgroundColor: getCategoryColor(item.code), // lấy từ category
+                      color: "#fff", // chữ luôn trắng
+                    }}
+                  >
                     {getCategoryName(item.code)}
                   </Tag>
+                </div>
+
+                <div className="card-content">
+                  <h3 className="card-title">{item.title}</h3>
+                  <p className="card-description">{item.content}</p>
+                </div>
+
+                <div className="card-footer">
+                  <Button
+                    type="primary"
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer nofollow"
+                    style={{ width: "100%", marginTop: 10 }}
+                  >
+                    Read Review / Buy Now
+                  </Button>
                 </div>
               </Card>
             </Col>
           ))
         ) : (
           <Col span={24} style={{ textAlign: "center", padding: "80px 0" }}>
-            <Empty description="Không có chương trình nào trong danh mục này" />
+            <Empty description="No programs available in this category" />
           </Col>
         )}
       </Row>
-
       {/* Pagination */}
       {filteredRecords.length > pageSize && (
-        <div style={{ textAlign: "center", marginTop: 30 }}>
-          <Pagination
-            key={`${activeCategory}-${filteredRecords.length}`}
-            current={currentPage}
-            pageSize={pageSize}
-            total={filteredRecords.length}
-            onChange={(page) => setCurrentPage(page)}
-            showSizeChanger={false}
-          />
-        </div>
+        <Row justify="center" style={{ marginTop: 30 }}>
+          <Col>
+            <Pagination
+              key={`${activeCategory}-${filteredRecords.length}`}
+              current={currentPage}
+              pageSize={pageSize}
+              total={filteredRecords.length}
+              onChange={(page) => setCurrentPage(page)}
+              showSizeChanger={false}
+            />
+          </Col>
+        </Row>
       )}
     </div>
   );
 };
 
-export default Maincontent;
+export default MainContent;

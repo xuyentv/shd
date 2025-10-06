@@ -51,7 +51,7 @@ const Header = () => {
             </a>
           </Dropdown>
 
-          <a href="/blogs">Review</a>
+          <a href="/reviews">Review</a>
           <a href="/blog">Blog</a>
           <a href="/about">About</a>
           <a href="/contact">Contact</a>
