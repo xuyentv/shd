@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col, Card, Tag, Button, Space } from "antd";
 import * as XLSX from "xlsx";
-import "./Maincontent.css";
+import "./MainContent.css";
 
 const { Meta } = Card;
 
