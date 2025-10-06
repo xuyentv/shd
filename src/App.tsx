@@ -7,6 +7,7 @@ import AboutPage from "./components/pages/AboutPage/AboutPage";
 import ContactPage from "./components/pages/ContactPage/ContactPage";
 import ReviewPage from "./components/pages/ReviewPage/ReviewPage";
 import BlogPage from "./components/pages/BlogPage/BlogPage";
+import NotFoundPage from "./components/pages/NotFoundPage/NotFoundPage";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/reviews" element={<ReviewPage />} />
             <Route path="/blog" element={<BlogPage />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
           <Footer />
         </div>
