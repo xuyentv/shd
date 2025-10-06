@@ -1,12 +1,23 @@
-import React, { useEffect, useState } from "react";
-import { Row, Col, Card, Tag, Button, Space, Pagination } from "antd";
+// MainContent.tsx
+import React, { useEffect, useState, useMemo, useRef } from "react";
+import {
+  Row,
+  Col,
+  Card,
+  Tag,
+  Button,
+  Space,
+  Pagination,
+  Spin,
+  Empty,
+} from "antd";
 import * as XLSX from "xlsx";
 import "./MainContent.css";
 
 const { Meta } = Card;
 
-// Interface
 interface IRecord {
+  id: string;
   no: string;
   code: string;
   title: string;
@@ -14,37 +25,10 @@ interface IRecord {
   status: string;
   commision: string;
   image: string;
-}
-
-class Record implements IRecord {
-  no: string;
-  code: string;
-  title: string;
-  content: string;
-  status: string;
-  commision: string;
-  image: string;
-
-  constructor(
-    no: string = "",
-    code: string = "",
-    title: string = "",
-    content: string = "",
-    status: string = "",
-    commision: string = "",
-    image: string = ""
-  ) {
-    this.no = no;
-    this.code = code;
-    this.title = title;
-    this.content = content;
-    this.status = status;
-    this.commision = commision;
-    this.image = image;
-  }
 }
 
 interface ICategory {
+  id: string;
   no: string;
   code: string;
   name: string;
@@ -52,153 +36,144 @@ interface ICategory {
   position: string;
   description: string;
   color: string;
-}
-
-class Category implements ICategory {
-  no: string;
-  code: string;
-  name: string;
-  status: string;
-  position: string;
-  description: string;
-  color: string;
-
-  constructor(
-    no: string = "",
-    code: string = "",
-    name: string = "",
-    status: string = "",
-    position: string = "",
-    description: string = "",
-    color: string = ""
-  ) {
-    this.no = no;
-    this.code = code;
-    this.name = name;
-    this.status = status;
-    this.position = position;
-    this.description = description;
-    this.color = color;
-  }
 }
 
 const Maincontent: React.FC = () => {
-  const [records, setRecords] = useState<Record[]>([]);
-  const [category, setCategory] = useState<Category[]>([]);
-  const [activeCategory, setActiveCategory] = useState("all");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize] = useState(6);
+  const [records, setRecords] = useState<IRecord[]>([]);
+  const [categories, setCategories] = useState<ICategory[]>([]);
+  const [activeCategory, setActiveCategory] = useState<string>("all");
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [pageSize] = useState<number>(6);
+  const [loading, setLoading] = useState<boolean>(true);
 
+  const listRef = useRef<HTMLDivElement>(null);
+
+  // Fetch dữ liệu
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
         const url =
           "https://docs.google.com/spreadsheets/d/e/2PACX-1vTtz0Uo2LaJ4ZXvLDBLsV35tLNT8LT4csRmkOffhx7L8ZL90itRlqKKBqnRSUliz2sZW9klRsVsako2/pub?output=xlsx";
+        const res = await fetch(url);
+        const arrayBuffer = await res.arrayBuffer();
+        const workbook = XLSX.read(new Uint8Array(arrayBuffer), {
+          type: "array",
+        });
 
-        const response = await fetch(url);
-        const arrayBuffer = await response.arrayBuffer();
-        const data = new Uint8Array(arrayBuffer);
+        const sheetPrograms = workbook.Sheets[workbook.SheetNames[0]];
+        const sheetCategories = workbook.Sheets[workbook.SheetNames[1]];
 
-        const workbook = XLSX.read(data, { type: "array" });
-        const worksheetPrograms = workbook.Sheets[workbook.SheetNames[0]];
-        const worksheetCategories = workbook.Sheets[workbook.SheetNames[1]];
-
-        const jsonDataPrograms: any[] = XLSX.utils.sheet_to_json(
-          worksheetPrograms,
+        const jsonPrograms: any[] = XLSX.utils.sheet_to_json(sheetPrograms, {
+          defval: "",
+        });
+        const jsonCategories: any[] = XLSX.utils.sheet_to_json(
+          sheetCategories,
           { defval: "" }
         );
-        const mappedDataPrograms: Record[] = jsonDataPrograms.map(
-          (row) =>
-            new Record(
-              row.no,
-              row.code,
-              row.title,
-              row.content,
-              row.status,
-              row.commision,
-              row.image
-            )
-        );
-        setRecords(mappedDataPrograms);
 
-        const jsonDataCategories: any[] = XLSX.utils.sheet_to_json(
-          worksheetCategories,
-          { defval: "" }
-        );
-        const mappedDataCategories: Category[] = jsonDataCategories.map(
-          (row) =>
-            new Category(
-              row.no,
-              row.code,
-              row.name,
-              row.status,
-              row.position,
-              row.description,
-              row.color
-            )
-        );
-        setCategory(mappedDataCategories);
+        const mappedRecords: IRecord[] = jsonPrograms.map((row, idx) => ({
+          id: `${row.no ?? "r"}-${idx}`,
+          no: String(row.no ?? ""),
+          code: String(row.code ?? "").trim().toLowerCase(),
+          title: String(row.title ?? ""),
+          content: String(row.content ?? ""),
+          status: String(row.status ?? ""),
+          commision: String(row.commision ?? ""),
+          image: String(row.image ?? ""),
+        }));
+
+        const mappedCategories: ICategory[] = jsonCategories.map((row, idx) => ({
+          id: `${row.no ?? "c"}-${idx}`,
+          no: String(row.no ?? ""),
+          code: String(row.code ?? "").trim().toLowerCase(),
+          name: String(row.name ?? ""),
+          status: String(row.status ?? ""),
+          position: String(row.position ?? ""),
+          description: String(row.description ?? ""),
+          color: String(row.color ?? "#666"),
+        }));
+
+        setRecords(mappedRecords);
+        setCategories(mappedCategories);
       } catch (err) {
-        console.error("Lỗi khi tải dữ liệu:", err);
+        console.error("❌ Lỗi khi tải dữ liệu:", err);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchData();
   }, []);
 
-  // Lấy tên loại từ category code
-  function getType(code: string) {
-    const found = category.find((c) => c.code === code);
-    return found ? found.name : "Unknown";
-  }
-  function getColor(code: string) {
-    const found = category.find((c) => c.code === code);
-    return found ? found.color : "#000";
-  }
+  // Reset page khi activeCategory thay đổi
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeCategory]);
 
-  // Lọc dữ liệu theo category đang chọn
-  const filteredRecords =
-    activeCategory === "all"
-      ? records
-      : records.filter((r) => r.code === activeCategory);
+  // Filter
+  const filteredRecords = useMemo(() => {
+    if (!records.length) return [];
+    if (activeCategory === "all") return records;
+    return records.filter((r) => r.code === activeCategory);
+  }, [records, activeCategory]);
 
-  // Dữ liệu phân trang
+  // Pagination slice
   const startIndex = (currentPage - 1) * pageSize;
-  const paginatedData = filteredRecords.slice(
-    startIndex,
-    startIndex + pageSize
+  const paginatedData = useMemo(
+    () => filteredRecords.slice(startIndex, startIndex + pageSize),
+    [filteredRecords, startIndex, pageSize]
   );
+
+  // Scroll đến thẻ đầu tiên khi đổi page hoặc category
+  useEffect(() => {
+    if (!paginatedData.length) return;
+    const firstItemId = paginatedData[0].id;
+    const el = document.getElementById(firstItemId);
+    if (el) {
+      const rect = el.getBoundingClientRect();
+      const scrollTop =
+        window.pageYOffset + rect.top - window.innerHeight / 2 + rect.height / 2;
+      window.scrollTo({ top: scrollTop, behavior: "smooth" });
+    }
+  }, [paginatedData]);
+
+  const getCategoryName = (code: string) =>
+    categories.find((c) => c.code === code)?.name || "Unknown";
+  const getCategoryColor = (code: string) =>
+    categories.find((c) => c.code === code)?.color || "#666";
+
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <Spin size="large" tip="Đang tải dữ liệu..." />
+      </div>
+    );
+  }
 
   return (
     <div className="main-container">
       <div className="main-header">
         <h2>Affiliate Programs 2025</h2>
-        <p>Select a program to explore details and start earning commissions</p>
+        <p>Khám phá các chương trình tiếp thị hấp dẫn và nhận hoa hồng dễ dàng!</p>
       </div>
 
-      {/* Filter */}
+      {/* Filter Buttons */}
       <div className="filter-buttons">
         <Space wrap>
           <Button
             type={activeCategory === "all" ? "primary" : "default"}
             shape="round"
-            onClick={() => {
-              setActiveCategory("all");
-              setCurrentPage(1);
-            }}
+            onClick={() => setActiveCategory("all")}
           >
             All ({records.length})
           </Button>
-
-          {category.map((cat) => (
+          {categories.map((cat) => (
             <Button
-              key={cat.code}
+              key={cat.id}
               type={activeCategory === cat.code ? "primary" : "default"}
               shape="round"
-              onClick={() => {
-                setActiveCategory(cat.code);
-                setCurrentPage(1);
-              }}
+              onClick={() => setActiveCategory(cat.code)}
             >
               {cat.name}
             </Button>
@@ -206,52 +181,53 @@ const Maincontent: React.FC = () => {
         </Space>
       </div>
 
-      {/* Danh sách Card */}
-      <Row gutter={[24, 24]}>
+      {/* Cards */}
+      <Row gutter={[24, 24]} ref={listRef}>
         {paginatedData.length > 0 ? (
-          paginatedData.map((i) => (
-            <Col key={`${i.no}-${i.code}`} xs={24} sm={12} lg={8}>
+          paginatedData.map((item) => (
+            <Col key={item.id} id={item.id} xs={24} sm={12} lg={8}>
               <Card
                 hoverable
-                cover={
-                  <img alt="program" src={i.image} className="card-image" />
-                }
+                className="program-card"
+                cover={<img alt={item.title} src={item.image} className="card-image" />}
               >
-                <Meta title={i.title} description={i.content} />
+                <Meta title={item.title} description={item.content} />
                 <div className="card-footer">
                   <div className="author">
                     <img
-                      src={`https://i.pravatar.cc/30?img=${i.no}`}
+                      src={`https://i.pravatar.cc/30?img=${item.no}`}
                       alt="author"
                       className="author-avatar"
                     />
                     <span>Adrio David · Sep 10, 2025</span>
                   </div>
-                  <Tag color={getColor(i.code)}>{getType(i.code)}</Tag>
+                  <Tag color={getCategoryColor(item.code)}>
+                    {getCategoryName(item.code)}
+                  </Tag>
                 </div>
               </Card>
             </Col>
           ))
         ) : (
-          <Col span={24} style={{ textAlign: "center", padding: "60px 0" }}>
-            <h3 style={{ color: "#888" }}>No items found</h3>
-            <p style={{ color: "#aaa" }}>
-              Try selecting another category or check back later.
-            </p>
+          <Col span={24} style={{ textAlign: "center", padding: "80px 0" }}>
+            <Empty description="Không có chương trình nào trong danh mục này" />
           </Col>
         )}
       </Row>
 
-      {/* Phân trang */}
-      <div style={{ textAlign: "center", marginTop: 30 }}>
-        <Pagination
-          current={currentPage}
-          pageSize={pageSize}
-          total={filteredRecords.length}
-          onChange={(page) => setCurrentPage(page)}
-          showSizeChanger={false}
-        />
-      </div>
+      {/* Pagination */}
+      {filteredRecords.length > pageSize && (
+        <div style={{ textAlign: "center", marginTop: 30 }}>
+          <Pagination
+            key={`${activeCategory}-${filteredRecords.length}`}
+            current={currentPage}
+            pageSize={pageSize}
+            total={filteredRecords.length}
+            onChange={(page) => setCurrentPage(page)}
+            showSizeChanger={false}
+          />
+        </div>
+      )}
     </div>
   );
 };
