@@ -1,0 +1,95 @@
+.footer-container {
+  background-color: #111827;
+  color: #e5e7eb; /* text mặc định sáng hơn #bfbfbf */
+  padding: 60px 20px 40px;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Header các cột */
+.footer-container .ant-typography h5 {
+  color: #40a9ff;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+/* Text mặc định */
+.footer-container p,
+.footer-container span,
+.footer-container a {
+  color: #e5e7eb;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* Links */
+.footer-container a {
+  transition: all 0.3s ease;
+}
+.footer-container a:hover {
+  color: #40a9ff;
+  text-decoration: underline;
+}
+
+/* Form subscribe */
+.footer-container .ant-form-inline .ant-form-item {
+  margin-bottom: 8px;
+}
+
+.footer-container .ant-input {
+  border-radius: 8px;
+  border: none;
+  padding: 8px 12px;
+}
+
+.footer-container .ant-btn-primary {
+  background: linear-gradient(90deg, #0ea5e9, #3b82f6);
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  color: #fff;
+  transition: all 0.25s ease;
+}
+.footer-container .ant-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(14, 165, 233, 0.4);
+}
+
+/* Social icons */
+.footer-container .ant-space a svg {
+  font-size: 24px;
+  color: #e5e7eb;
+  transition: all 0.3s ease;
+}
+.footer-container .ant-space a svg:hover {
+  color: #40a9ff;
+  transform: scale(1.1);
+}
+
+/* Bottom bar */
+.footer-bottom {
+  margin-top: 40px;
+  border-top: 1px solid #333;
+  padding-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: #cbd5e1; /* text sáng trên nền tối */
+}
+
+.footer-bottom .highlight {
+  font-weight: 700;
+  color: #facc15; /* vàng nổi bật hơn */
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .footer-bottom {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+}

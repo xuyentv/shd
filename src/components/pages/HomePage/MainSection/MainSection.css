@@ -1,0 +1,40 @@
+.main-hero-section {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  background: #fff;
+}
+
+.hero-image {
+  width: 100%;
+  height: 320px; 
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.hero-image > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hero-content {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero-content .category-tag {
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.author-info {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  color: #718096;
+}
