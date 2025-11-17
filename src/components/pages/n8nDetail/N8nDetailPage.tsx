@@ -86,13 +86,13 @@ const N8nDetailPage = () => {
             
             {/* Featured Image */}
             <img
-              src="../../../../public/img/n8n.jpg"
+              src="https://i.pinimg.com/1200x/1d/7e/ab/1d7eabfd349e43e5ad4512b5aaf1f9fb.jpg"
               alt="Detailed illustration of an n8n workflow"
               style={{ width: '100%', height: 'auto', borderRadius: '8px', marginBottom: 24 }}
               onError={(e) => { 
                 const target = e.target as HTMLImageElement;
                 target.onerror = null; 
-                target.src = "./../../../public/img/n8n.jpg"; 
+                target.src = "https://i.pinimg.com/1200x/1d/7e/ab/1d7eabfd349e43e5ad4512b5aaf1f9fb.jpg"; 
               }}
             />
             

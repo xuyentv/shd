@@ -13,12 +13,12 @@ const MainSection = () => {
         <Col xs={24} md={12}>
           <div className="hero-image">
             <img
-              src="../../../../public/img/n8n.jpg"
+              src="https://i.pinimg.com/1200x/1d/7e/ab/1d7eabfd349e43e5ad4512b5aaf1f9fb.jpg"
               alt="n8n Workflow Automation Diagram"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
                 target.onerror = null;
-                target.src = "./../../../public/img/n8n.jpg";
+                target.src = "https://i.pinimg.com/1200x/1d/7e/ab/1d7eabfd349e43e5ad4512b5aaf1f9fb.jpg";
               }}
               style={{ width: "100%", height: "auto", display: "block" }}
             />
