@@ -86,13 +86,13 @@ const N8nDetailPage = () => {
             
             {/* Featured Image */}
             <img
-              src="https://picsum.photos/1200/500?random=n8n-detail-hero"
+              src="../../../../public/img/n8n.jpg"
               alt="Detailed illustration of an n8n workflow"
               style={{ width: '100%', height: 'auto', borderRadius: '8px', marginBottom: 24 }}
               onError={(e) => { 
                 const target = e.target as HTMLImageElement;
                 target.onerror = null; 
-                target.src = "https://placehold.co/1200x500/1890ff/FFFFFF?text=n8n+Detail+Page+Hero"; 
+                target.src = "./../../../public/img/n8n.jpg"; 
               }}
             />
             
