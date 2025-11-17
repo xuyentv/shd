@@ -1,36 +1,49 @@
 import { Card, Typography, Tag, Row, Col, Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-import "./MainSection.css";
+import { useNavigate } from "react-router-dom";
 
 const { Title, Paragraph, Text } = Typography;
 
 const MainSection = () => {
+  const navigate = useNavigate();
+
   return (
     <Card className="main-hero-section" bodyStyle={{ padding: 0 }}>
       <Row gutter={24} align="middle">
         <Col xs={24} md={12}>
           <div className="hero-image">
             <img
-              src="https://picsum.photos/600/400?random=2"
-              alt="Modern buildings"
+              src="https://i.ibb.co/gL2BZCwd/C-ng-ng-n8n-Automation-Vi-t-Nam-C-c-b-c-cho-em-h-i-ngu-t-Facebook.jpg"
+              alt="n8n Workflow Automation Diagram"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.onerror = null;
+                target.src = "https://placehold.co/600x400/101010/FFFFFF?text=n8n+Workflow";
+              }}
+              style={{ width: "100%", height: "auto", display: "block" }}
             />
           </div>
         </Col>
-        <Col xs={24} md={12} className="hero-content">
-          <Tag color="purple" className="category-tag">
-            Lifestyle
-          </Tag>
-          <Title level={2}>
-            Begin here to obtain a brief summary encompassing all the essential
+
+        <Col xs={24} md={12} style={{ padding: "24px" }}>
+          <Tag color="blue">Automation & Workflow</Tag>
+
+          {/* CLICK vào title để chuyển trang */}
+          <Title
+            level={2}
+            style={{ cursor: "pointer" }}
+            onClick={() => navigate("/n8n")}
+          >
+            In-Depth Review: n8n - The Powerful Open-Source Workflow Automation Tool for Developers
           </Title>
+
           <Paragraph>
-            This comprehensive post serves as your chief sheet to swiftly
-            familiarize yourself with Ghost. Packed with crucial...
+            n8n is a free and open-source workflow automation tool designed...
           </Paragraph>
 
-          <div className="author-info">
+          <div style={{ display: "flex", alignItems: "center", marginTop: "16px" }}>
             <Avatar icon={<UserOutlined />} size="small" />
-            <Text>&nbsp;By Adrio David&nbsp;•&nbsp;Sep 10, 2025</Text>
+            <Text>&nbsp;By Adrio David • Nov 18, 2025</Text>
           </div>
         </Col>
       </Row>

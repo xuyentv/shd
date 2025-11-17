@@ -8,6 +8,7 @@ import ContactPage from "./components/pages/ContactPage/ContactPage";
 import ReviewPage from "./components/pages/ReviewPage/ReviewPage";
 import BlogPage from "./components/pages/BlogPage/BlogPage";
 import NotFoundPage from "./components/pages/NotFoundPage/NotFoundPage";
+import N8nDetailPage from "./components/pages/n8nDetail/N8nDetailPage";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/reviews" element={<ReviewPage />} />
           <Route path="/blog" element={<BlogPage />} />
           <Route path="*" element={<NotFoundPage />} />
+          <Route path="/n8n" element={<N8nDetailPage />} />
         </Routes>
         <Footer />
       </div>
